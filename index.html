@@ -295,8 +295,8 @@
                 </tr>
                 <tr>
                     <td class="label">單筆損益</td>
-                    <td>N/A</td>
-                    <td>N/A</td>
+                    <td id="singlePL2">N/A</td>
+                    <td id="singlePL1">N/A</td>
                 </tr>
             </tbody>
         </table>
@@ -315,8 +315,8 @@
             feeRate: 0.001425,
             taxRate: 0.001,
             transactions: [
-                { date: '2025-12-11', cost: 21320 },
-                { date: '2025-12-16', cost: 21120 }
+                { date: '2025-12-11', cost: 21320, price: 21.3, shares: 1000 },
+                { date: '2025-12-16', cost: 21120, price: 21.1, shares: 1000 }
             ]
         };
 
@@ -384,6 +384,16 @@
             document.getElementById('annualizedReturn').textContent = annualizedReturn.toFixed(2) + '%';
             document.getElementById('breakEvenPrice').textContent = (Math.ceil(breakEvenPrice * 100) / 100).toFixed(2);
 
+            // 更新單筆損益
+            stockData.transactions.forEach((t, index) => {
+                const singlePL = Math.round((currentPrice - t.price) * t.shares);
+                const el = document.getElementById('singlePL' + (index + 1));
+                if (el) {
+                    el.textContent = singlePL.toLocaleString();
+                    el.className = singlePL >= 0 ? 'red' : 'green';
+                }
+            });
+
             // 更新時間
             const now = new Date();
             const timeStr = `${now.getFullYear()}/${(now.getMonth()+1).toString().padStart(2,'0')}/${now.getDate().toString().padStart(2,'0')} ${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`;
@@ -432,6 +442,7 @@
 
         // 頁面載入
         window.onload = function() {
+            // 先顯示上次的快取價格
             const lastPrice = localStorage.getItem('00878_lastPrice');
             if (lastPrice) {
                 updateDisplay(parseFloat(lastPrice));
@@ -440,6 +451,8 @@
                     document.getElementById('footer').textContent = '更新時間：' + lastUpdate;
                 }
             }
+            // 自動抓取最新股價
+            fetchPrice();
         };
     </script>
 </body>
