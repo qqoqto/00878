@@ -2,7 +2,7 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>00878 存股紀錄</title>
     <style>
         * {
@@ -10,310 +10,359 @@
             padding: 0;
             box-sizing: border-box;
         }
+        
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Microsoft JhengHei", sans-serif;
-            background: #1a1a2e;
-            color: #fff;
+            font-family: "Microsoft JhengHei", "PingFang TC", "Heiti TC", sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            padding: 15px;
+            padding: 20px;
         }
+        
         .container {
-            max-width: 1200px;
+            max-width: 500px;
             margin: 0 auto;
         }
-
-        /* 標題區 */
-        .header {
+        
+        /* 標題卡片 */
+        .header-card {
+            background: white;
+            border-radius: 24px;
+            padding: 24px;
+            margin-bottom: 16px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            text-align: center;
+        }
+        
+        .stock-name {
+            font-size: 22px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        
+        .stock-code {
+            font-size: 16px;
+            color: #888;
+        }
+        
+        /* 股價大卡片 */
+        .price-card {
+            background: white;
+            border-radius: 24px;
+            padding: 32px 24px;
+            margin-bottom: 16px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            text-align: center;
+        }
+        
+        .price-label {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 12px;
+        }
+        
+        .current-price {
+            font-size: 64px;
+            font-weight: bold;
+            color: #333;
+            line-height: 1.1;
+        }
+        
+        .price-unit {
+            font-size: 24px;
+            color: #888;
+            margin-left: 4px;
+        }
+        
+        .update-time {
+            font-size: 14px;
+            color: #aaa;
+            margin-top: 16px;
+        }
+        
+        /* 持股資訊 */
+        .info-card {
+            background: white;
+            border-radius: 24px;
+            padding: 24px;
+            margin-bottom: 16px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+        }
+        
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .info-row:last-child {
+            border-bottom: none;
+        }
+        
+        .info-label {
+            font-size: 18px;
+            color: #666;
+        }
+        
+        .info-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        /* 損益卡片 - 特別強調 */
+        .profit-card {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a5a 100%);
+            border-radius: 24px;
+            padding: 32px 24px;
+            margin-bottom: 16px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            text-align: center;
+            color: white;
+        }
+        
+        .profit-card.positive {
+            background: linear-gradient(135deg, #51cf66 0%, #40c057 100%);
+        }
+        
+        .profit-card.negative {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a5a 100%);
+        }
+        
+        .profit-label {
+            font-size: 20px;
+            opacity: 0.9;
+            margin-bottom: 12px;
+        }
+        
+        .profit-value {
+            font-size: 56px;
+            font-weight: bold;
+            line-height: 1.1;
+        }
+        
+        .profit-rate {
+            font-size: 24px;
+            margin-top: 12px;
+            opacity: 0.9;
+        }
+        
+        .profit-note {
+            font-size: 14px;
+            margin-top: 16px;
+            opacity: 0.7;
+        }
+        
+        /* 更新按鈕 */
+        .refresh-btn {
+            width: 100%;
+            padding: 20px;
+            background: white;
+            border: none;
+            border-radius: 24px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #667eea;
+            cursor: pointer;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
             display: flex;
             align-items: center;
-            gap: 15px;
-            margin-bottom: 15px;
-            padding: 10px;
-            background: #16213e;
-            border-radius: 8px;
+            justify-content: center;
+            gap: 10px;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
-        .header .stock-title {
-            color: #4ecca3;
-            font-size: 16px;
-            font-weight: bold;
+        
+        .refresh-btn:active {
+            transform: scale(0.98);
         }
-        .refresh-btn {
-            padding: 8px 16px;
-            background: #4ecca3;
-            border: none;
-            border-radius: 6px;
-            color: #1a1a2e;
-            font-size: 14px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-        .refresh-btn:hover {
-            background: #3db892;
-        }
+        
         .refresh-btn:disabled {
-            opacity: 0.5;
+            opacity: 0.6;
             cursor: not-allowed;
         }
-        .status {
-            color: #888;
-            font-size: 12px;
+        
+        .refresh-icon {
+            font-size: 24px;
         }
-
-        /* 主要數據表格 */
-        .data-table-wrapper {
-            overflow-x: auto;
+        
+        /* 狀態訊息 */
+        .status-msg {
+            text-align: center;
+            color: white;
+            font-size: 16px;
+            margin-top: 16px;
+            min-height: 24px;
+        }
+        
+        /* 買進紀錄 */
+        .history-card {
+            background: white;
+            border-radius: 24px;
+            padding: 24px;
+            margin-bottom: 16px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+        }
+        
+        .history-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
             margin-bottom: 20px;
+            text-align: center;
         }
-        .data-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 13px;
-            white-space: nowrap;
+        
+        .history-item {
+            background: #f8f9fa;
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 12px;
         }
-        .data-table th {
-            background: #16213e;
+        
+        .history-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .history-date {
+            font-size: 16px;
             color: #888;
-            padding: 8px 12px;
-            text-align: center;
-            font-weight: normal;
-            border-bottom: 1px solid #333;
+            margin-bottom: 8px;
         }
-        .data-table td {
-            background: #1a1a2e;
-            padding: 10px 12px;
-            text-align: center;
-            border-bottom: 1px solid #333;
+        
+        .history-detail {
+            display: flex;
+            justify-content: space-between;
+            font-size: 18px;
         }
-        .data-table .stock-name {
-            color: #4ecca3;
-            text-align: left;
+        
+        .history-shares {
+            color: #333;
+            font-weight: bold;
         }
-        .data-table .red {
-            color: #e74c3c;
-        }
-        .data-table .green {
-            color: #27ae60;
-        }
-
-        /* 選擇的股票標題 */
-        .selected-stock {
-            color: #4ecca3;
-            font-size: 14px;
-            margin: 20px 0 10px 0;
-        }
-
-        /* 買賣紀錄表格 */
-        .record-table {
-            width: auto;
-            border-collapse: collapse;
-            font-size: 13px;
-        }
-        .record-table th {
-            background: #16213e;
-            color: #888;
-            padding: 8px 15px;
-            text-align: center;
-            font-weight: normal;
-            border: 1px solid #333;
-        }
-        .record-table td {
-            background: #1a1a2e;
-            padding: 8px 15px;
-            text-align: center;
-            border: 1px solid #333;
-        }
-        .record-table td.label {
-            background: #16213e;
-            color: #888;
-            text-align: left;
-        }
-        .tag-buy {
-            background: #e74c3c;
-            color: white;
-            padding: 2px 10px;
-            border-radius: 3px;
-            font-size: 12px;
-        }
-        .tag-sell {
-            background: #27ae60;
-            color: white;
-            padding: 2px 10px;
-            border-radius: 3px;
-            font-size: 12px;
-        }
-        .red {
-            color: #e74c3c;
-        }
-
-        /* 頁尾 */
-        .footer {
-            text-align: center;
+        
+        .history-price {
             color: #666;
-            font-size: 12px;
-            margin-top: 20px;
+        }
+        
+        .single-pl {
+            margin-top: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: right;
+        }
+        
+        .single-pl.positive {
+            color: #40c057;
+        }
+        
+        .single-pl.negative {
+            color: #ee5a5a;
+        }
+
+        /* 頁尾說明 */
+        .footer-note {
+            text-align: center;
+            color: rgba(255,255,255,0.7);
+            font-size: 14px;
+            margin-top: 24px;
+            line-height: 1.6;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- 標題區 -->
-        <div class="header">
-            <span class="stock-title">00878 國泰永續高股息</span>
-            <button class="refresh-btn" onclick="fetchPrice()">🔄 更新股價</button>
-            <span class="status" id="status"></span>
+        <!-- 標題 -->
+        <div class="header-card">
+            <div class="stock-name">國泰永續高股息</div>
+            <div class="stock-code">00878</div>
         </div>
-
-        <!-- 主要數據表格 -->
-        <div class="data-table-wrapper">
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>股票代碼及名稱</th>
-                        <th>12/17<br>收盤價</th>
-                        <th>庫存張數</th>
-                        <th>市值</th>
-                        <th>現股<br>總成本</th>
-                        <th>現股<br>平均成本</th>
-                        <th>未實現<br>損益</th>
-                        <th>未實現<br>報酬率</th>
-                        <th>已實現<br>損益</th>
-                        <th>損益平衡價</th>
-                        <th>累計總成本<br>(除權息後)</th>
-                        <th>累計平均成本<br>(除權息後)</th>
-                        <th>累計損益</th>
-                        <th>累計<br>手續費</th>
-                        <th>累計<br>交易稅</th>
-                        <th>累計<br>股票股利(股)</th>
-                        <th>累計<br>現金股利(元)</th>
-                        <th>平均<br>年化報酬率</th>
-                        <th>持股淨值比</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="stock-name">00878 國泰永續高股...</td>
-                        <td id="currentPrice">21.35</td>
-                        <td>2</td>
-                        <td id="marketValue">42,700</td>
-                        <td>42,440</td>
-                        <td>21.22</td>
-                        <td class="red" id="unrealizedPL">158</td>
-                        <td class="red" id="unrealizedRate">0.37%</td>
-                        <td>0</td>
-                        <td id="breakEvenPrice">21.28</td>
-                        <td>42,440</td>
-                        <td>21.22</td>
-                        <td class="red" id="totalPL">158</td>
-                        <td>40</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td class="red" id="annualizedReturn">47.08%</td>
-                        <td>100.0%</td>
-                    </tr>
-                </tbody>
-            </table>
+        
+        <!-- 目前股價 -->
+        <div class="price-card">
+            <div class="price-label">📈 目前股價</div>
+            <div>
+                <span class="current-price" id="currentPrice">21.35</span>
+                <span class="price-unit">元</span>
+            </div>
+            <div class="update-time" id="updateTime">更新時間：載入中...</div>
         </div>
-
-        <!-- 選擇的股票 -->
-        <div class="selected-stock">目前選擇公司：00878 國泰永續高股息</div>
-
-        <!-- 買賣紀錄表格 -->
-        <table class="record-table">
-            <thead>
-                <tr>
-                    <th></th>
-                    <th>#2</th>
-                    <th>#1</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="label">日期</td>
-                    <td>2025-12-16 (二)</td>
-                    <td>2025-12-11 (四)</td>
-                </tr>
-                <tr>
-                    <td class="label">交易種類</td>
-                    <td><span class="tag-buy">買進</span></td>
-                    <td><span class="tag-buy">買進</span></td>
-                </tr>
-                <tr>
-                    <td class="label">交易價格</td>
-                    <td>21.1</td>
-                    <td>21.3</td>
-                </tr>
-                <tr>
-                    <td class="label">交易張數</td>
-                    <td>1</td>
-                    <td>1</td>
-                </tr>
-                <tr>
-                    <td class="label">交易金額</td>
-                    <td>21,100</td>
-                    <td>21,300</td>
-                </tr>
-                <tr>
-                    <td class="label">手續費 / 交易稅</td>
-                    <td>20 / 0</td>
-                    <td>20 / 0</td>
-                </tr>
-                <tr>
-                    <td class="label">應收付</td>
-                    <td class="red">-21,120</td>
-                    <td class="red">-21,320</td>
-                </tr>
-                <tr>
-                    <td class="label">全部現金股利(元) /<br>每股現金股利(元)</td>
-                    <td>N/A</td>
-                    <td>N/A</td>
-                </tr>
-                <tr>
-                    <td class="label">全部股票股利(股) /<br>每股股票股利(元)</td>
-                    <td>N/A</td>
-                    <td>N/A</td>
-                </tr>
-                <tr>
-                    <td class="label">補充保費</td>
-                    <td>N/A</td>
-                    <td>N/A</td>
-                </tr>
-                <tr>
-                    <td class="label">累計總成本(除權息後)</td>
-                    <td>42,440</td>
-                    <td>21,320</td>
-                </tr>
-                <tr>
-                    <td class="label">庫存張數</td>
-                    <td>2</td>
-                    <td class="red">1</td>
-                </tr>
-                <tr>
-                    <td class="label">累計平均成本(除權息後)</td>
-                    <td>21.22</td>
-                    <td>21.32</td>
-                </tr>
-                <tr>
-                    <td class="label">單筆損益</td>
-                    <td id="singlePL2">N/A</td>
-                    <td id="singlePL1">N/A</td>
-                </tr>
-            </tbody>
-        </table>
+        
+        <!-- 持股資訊 -->
+        <div class="info-card">
+            <div class="info-row">
+                <span class="info-label">📦 持有張數</span>
+                <span class="info-value">2 張</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">💰 總成本</span>
+                <span class="info-value">42,440 元</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">🏷️ 平均買價</span>
+                <span class="info-value">21.22 元</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">💵 目前市值</span>
+                <span class="info-value" id="marketValue">42,700 元</span>
+            </div>
+        </div>
+        
+        <!-- 損益 - 最重要的資訊 -->
+        <div class="profit-card" id="profitCard">
+            <div class="profit-label">💹 目前損益</div>
+            <div class="profit-value" id="profitValue">+158 元</div>
+            <div class="profit-rate" id="profitRate">報酬率 +0.37%</div>
+            <div class="profit-note">＊已扣除預估手續費與交易稅</div>
+        </div>
+        
+        <!-- 買進紀錄 -->
+        <div class="history-card">
+            <div class="history-title">📝 買進紀錄</div>
+            
+            <div class="history-item">
+                <div class="history-date">2025/12/16（週二）</div>
+                <div class="history-detail">
+                    <span class="history-shares">買 1 張</span>
+                    <span class="history-price">@ 21.10 元</span>
+                </div>
+                <div class="single-pl" id="singlePL2">損益計算中...</div>
+            </div>
+            
+            <div class="history-item">
+                <div class="history-date">2025/12/11（週四）</div>
+                <div class="history-detail">
+                    <span class="history-shares">買 1 張</span>
+                    <span class="history-price">@ 21.30 元</span>
+                </div>
+                <div class="single-pl" id="singlePL1">損益計算中...</div>
+            </div>
+        </div>
+        
+        <!-- 更新按鈕 -->
+        <button class="refresh-btn" id="refreshBtn" onclick="fetchPrice()">
+            <span class="refresh-icon">🔄</span>
+            <span>更新股價</span>
+        </button>
+        
+        <div class="status-msg" id="statusMsg"></div>
+        
+        <div class="footer-note">
+            每次開啟會自動更新股價<br>
+            也可以按上方按鈕手動更新
+        </div>
     </div>
-
-    <div class="footer" id="footer">更新時間：2025/12/17</div>
 
     <script>
         // ===== 存股資料設定 =====
         const stockData = {
             stockCode: '00878',
-            totalShares: 2000,
-            totalCost: 42440,
-            totalDividend: 0,
-            totalFee: 40,
-            feeRate: 0.001425,
-            taxRate: 0.001,
+            totalShares: 2000,      // 總股數
+            totalCost: 42440,       // 總成本
+            totalDividend: 0,       // 累計股利
+            totalFee: 40,           // 累計手續費
+            feeRate: 0.001425,      // 手續費率
+            taxRate: 0.001,         // 交易稅率
             transactions: [
                 { date: '2025-12-11', cost: 21320, price: 21.3, shares: 1000 },
                 { date: '2025-12-16', cost: 21120, price: 21.1, shares: 1000 }
@@ -322,34 +371,6 @@
 
         stockData.avgCost = (stockData.totalCost / stockData.totalShares).toFixed(2);
 
-        // 計算年化報酬率（簡單年化）
-        function calcAnnualizedReturn(totalReturn, days) {
-            if (days <= 0) return 0;
-            const annualized = totalReturn * (365 / days);
-            return annualized * 100;
-        }
-
-        // 計算加權平均持有天數
-        function getHoldingDays() {
-            const today = new Date();
-            today.setHours(0, 0, 0, 0);
-
-            let totalWeightedDays = 0;
-            let totalCost = 0;
-
-            stockData.transactions.forEach(t => {
-                const buyDate = new Date(t.date);
-                buyDate.setHours(0, 0, 0, 0);
-                const diffTime = today - buyDate;
-                const days = diffTime / (1000 * 60 * 60 * 24) + 1.23;
-                totalWeightedDays += days * t.cost;
-                totalCost += t.cost;
-            });
-
-            const avgDays = totalWeightedDays / totalCost;
-            return Math.max(avgDays, 1);
-        }
-
         // 計算預估賣出成本
         function calcSellCost(marketValue) {
             const sellFee = Math.floor(marketValue * stockData.feeRate);
@@ -357,98 +378,123 @@
             return { sellFee, sellTax, total: sellFee + sellTax };
         }
 
+        // 格式化數字
+        function formatNumber(num) {
+            return num.toLocaleString('zh-TW');
+        }
+
         // 更新畫面
         function updateDisplay(price) {
             const currentPrice = parseFloat(price);
             const marketValue = Math.round(currentPrice * stockData.totalShares);
             const grossUnrealizedPL = marketValue - stockData.totalCost;
-
+            
+            // 扣除預估賣出成本
             const sellCost = calcSellCost(marketValue);
             const unrealizedPL = grossUnrealizedPL - sellCost.total;
+            
+            const profitPercent = ((unrealizedPL / stockData.totalCost) * 100).toFixed(2);
+            const isPositive = unrealizedPL >= 0;
 
-            const totalPL = unrealizedPL + stockData.totalDividend;
-            const profitPercent = ((totalPL / stockData.totalCost) * 100).toFixed(2);
-
-            const holdingDays = getHoldingDays();
-            const grossReturn = grossUnrealizedPL / stockData.totalCost;
-            const annualizedReturn = calcAnnualizedReturn(grossReturn, holdingDays);
-
-            const breakEvenPrice = (stockData.totalCost + sellCost.total) / stockData.totalShares;
-
-            // 更新數值
+            // 更新股價
             document.getElementById('currentPrice').textContent = currentPrice.toFixed(2);
-            document.getElementById('marketValue').textContent = marketValue.toLocaleString();
-            document.getElementById('unrealizedPL').textContent = unrealizedPL;
-            document.getElementById('unrealizedRate').textContent = profitPercent + '%';
-            document.getElementById('totalPL').textContent = unrealizedPL;
-            document.getElementById('annualizedReturn').textContent = annualizedReturn.toFixed(2) + '%';
-            document.getElementById('breakEvenPrice').textContent = (Math.ceil(breakEvenPrice * 100) / 100).toFixed(2);
-
+            
+            // 更新市值
+            document.getElementById('marketValue').textContent = formatNumber(marketValue) + ' 元';
+            
+            // 更新損益卡片
+            const profitCard = document.getElementById('profitCard');
+            profitCard.className = 'profit-card ' + (isPositive ? 'positive' : 'negative');
+            
+            const sign = isPositive ? '+' : '';
+            document.getElementById('profitValue').textContent = sign + formatNumber(unrealizedPL) + ' 元';
+            document.getElementById('profitRate').textContent = '報酬率 ' + sign + profitPercent + '%';
+            
             // 更新單筆損益
             stockData.transactions.forEach((t, index) => {
                 const singlePL = Math.round((currentPrice - t.price) * t.shares);
                 const el = document.getElementById('singlePL' + (index + 1));
                 if (el) {
-                    el.textContent = singlePL.toLocaleString();
-                    el.className = singlePL >= 0 ? 'red' : 'green';
+                    const singleSign = singlePL >= 0 ? '+' : '';
+                    el.textContent = singleSign + formatNumber(singlePL) + ' 元';
+                    el.className = 'single-pl ' + (singlePL >= 0 ? 'positive' : 'negative');
                 }
             });
 
             // 更新時間
             const now = new Date();
             const timeStr = `${now.getFullYear()}/${(now.getMonth()+1).toString().padStart(2,'0')}/${now.getDate().toString().padStart(2,'0')} ${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`;
-            document.getElementById('footer').textContent = '更新時間：' + timeStr;
+            document.getElementById('updateTime').textContent = '更新時間：' + timeStr;
 
+            // 儲存到本地
             localStorage.setItem('00878_lastPrice', currentPrice);
             localStorage.setItem('00878_lastUpdate', timeStr);
         }
 
-        // 自動抓取股價
+        // 抓取股價 - 多個備用來源
         async function fetchPrice() {
-            const btn = document.querySelector('.refresh-btn');
-            const status = document.getElementById('status');
-
+            const btn = document.getElementById('refreshBtn');
+            const status = document.getElementById('statusMsg');
+            
             btn.disabled = true;
-            status.textContent = '正在抓取...';
+            status.textContent = '正在更新股價...';
 
-            try {
-                const proxyUrl = 'https://api.allorigins.win/raw?url=';
-                const targetUrl = encodeURIComponent('https://tw.stock.yahoo.com/quote/00878.TW');
+            // 多個代理服務備用
+            const proxies = [
+                (url) => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
+                (url) => `https://corsproxy.io/?${encodeURIComponent(url)}`,
+                (url) => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`
+            ];
+            
+            const targetUrl = 'https://tw.stock.yahoo.com/quote/00878.TW';
+            let success = false;
 
-                const response = await fetch(proxyUrl + targetUrl);
-                const html = await response.text();
-
-                const priceMatch = html.match(/"regularMarketPrice":(\d+\.?\d*)/);
-
-                if (priceMatch && priceMatch[1]) {
-                    const price = parseFloat(priceMatch[1]);
-                    updateDisplay(price);
-                    status.textContent = '✅ 已更新';
-                } else {
-                    throw new Error('無法解析股價');
-                }
-            } catch (error) {
-                console.error('抓取失敗:', error);
-                status.textContent = '❌ 抓取失敗';
-
-                const lastPrice = localStorage.getItem('00878_lastPrice');
-                if (lastPrice) {
-                    status.textContent = '❌ 失敗，顯示上次價格';
+            for (let i = 0; i < proxies.length && !success; i++) {
+                try {
+                    status.textContent = `正在更新股價... (${i + 1}/${proxies.length})`;
+                    
+                    const response = await fetch(proxies[i](targetUrl), {
+                        signal: AbortSignal.timeout(10000) // 10秒超時
+                    });
+                    const html = await response.text();
+                    
+                    const priceMatch = html.match(/"regularMarketPrice":(\d+\.?\d*)/);
+                    
+                    if (priceMatch && priceMatch[1]) {
+                        const price = parseFloat(priceMatch[1]);
+                        updateDisplay(price);
+                        status.textContent = '✅ 股價已更新';
+                        setTimeout(() => { status.textContent = ''; }, 3000);
+                        success = true;
+                    }
+                } catch (error) {
+                    console.log(`代理 ${i + 1} 失敗:`, error.message);
                 }
             }
 
+            if (!success) {
+                console.error('所有代理都失敗');
+                const lastPrice = localStorage.getItem('00878_lastPrice');
+                if (lastPrice) {
+                    updateDisplay(parseFloat(lastPrice));
+                    status.textContent = '⚠️ 無法更新，顯示上次股價';
+                } else {
+                    status.textContent = '❌ 更新失敗，請稍後再試';
+                }
+            }
+            
             btn.disabled = false;
         }
 
         // 頁面載入
         window.onload = function() {
-            // 先顯示上次的快取價格
+            // 先顯示快取的價格
             const lastPrice = localStorage.getItem('00878_lastPrice');
             if (lastPrice) {
                 updateDisplay(parseFloat(lastPrice));
                 const lastUpdate = localStorage.getItem('00878_lastUpdate');
                 if (lastUpdate) {
-                    document.getElementById('footer').textContent = '更新時間：' + lastUpdate;
+                    document.getElementById('updateTime').textContent = '更新時間：' + lastUpdate;
                 }
             }
             // 自動抓取最新股價
