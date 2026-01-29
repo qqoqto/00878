@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>00878 存股紀錄</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -11,11 +14,24 @@
             box-sizing: border-box;
         }
         
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --success: #10b981;
+            --success-dark: #059669;
+            --danger: #ef4444;
+            --danger-dark: #dc2626;
+            --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --card-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            --card-radius: 20px;
+        }
+        
         body {
-            font-family: "Microsoft JhengHei", "PingFang TC", "Heiti TC", sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+            background: var(--bg-gradient);
             min-height: 100vh;
             padding: 20px;
+            padding-bottom: 100px;
         }
         
         .container {
@@ -23,319 +39,575 @@
             margin: 0 auto;
         }
         
-        /* 標題卡片 */
-        .header-card {
+        /* 卡片基礎樣式 */
+        .card {
             background: white;
-            border-radius: 24px;
+            border-radius: var(--card-radius);
             padding: 24px;
             margin-bottom: 16px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            box-shadow: var(--card-shadow);
+        }
+        
+        /* 標題卡片 */
+        .header-card {
             text-align: center;
+            padding: 20px 24px;
         }
         
         .stock-name {
             font-size: 22px;
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 8px;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 4px;
         }
         
         .stock-code {
-            font-size: 16px;
-            color: #888;
+            font-size: 15px;
+            color: #9ca3af;
+            font-weight: 500;
         }
         
-        /* 股價大卡片 */
+        /* 股價卡片 */
         .price-card {
-            background: white;
-            border-radius: 24px;
-            padding: 32px 24px;
-            margin-bottom: 16px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
             text-align: center;
+            padding: 28px 24px;
         }
         
         .price-label {
-            font-size: 18px;
-            color: #666;
+            font-size: 16px;
+            color: #6b7280;
             margin-bottom: 12px;
+            font-weight: 500;
         }
         
         .current-price {
-            font-size: 64px;
-            font-weight: bold;
-            color: #333;
+            font-size: 56px;
+            font-weight: 700;
+            color: #1f2937;
             line-height: 1.1;
         }
         
         .price-unit {
-            font-size: 24px;
-            color: #888;
+            font-size: 22px;
+            color: #9ca3af;
             margin-left: 4px;
+            font-weight: 500;
         }
         
         .update-time {
-            font-size: 14px;
-            color: #aaa;
-            margin-top: 16px;
+            font-size: 13px;
+            color: #9ca3af;
+            margin-top: 14px;
         }
         
         /* 持股資訊 */
-        .info-card {
-            background: white;
-            border-radius: 24px;
-            padding: 24px;
-            margin-bottom: 16px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
-        }
-        
         .info-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 16px 0;
-            border-bottom: 1px solid #eee;
+            padding: 14px 0;
+            border-bottom: 1px solid #f3f4f6;
         }
         
         .info-row:last-child {
             border-bottom: none;
+            padding-bottom: 0;
+        }
+        
+        .info-row:first-child {
+            padding-top: 0;
         }
         
         .info-label {
-            font-size: 18px;
-            color: #666;
+            font-size: 16px;
+            color: #6b7280;
+            font-weight: 500;
         }
         
         .info-value {
-            font-size: 24px;
-            font-weight: bold;
-            color: #333;
+            font-size: 20px;
+            font-weight: 700;
+            color: #1f2937;
         }
         
-        /* 損益卡片 - 特別強調 */
+        /* 損益卡片 */
         .profit-card {
-            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a5a 100%);
-            border-radius: 24px;
-            padding: 32px 24px;
-            margin-bottom: 16px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            padding: 28px 24px;
             text-align: center;
             color: white;
+            transition: background 0.3s ease;
         }
         
         .profit-card.positive {
-            background: linear-gradient(135deg, #51cf66 0%, #40c057 100%);
+            background: linear-gradient(135deg, var(--success) 0%, var(--success-dark) 100%);
         }
         
         .profit-card.negative {
-            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a5a 100%);
+            background: linear-gradient(135deg, var(--danger) 0%, var(--danger-dark) 100%);
+        }
+        
+        .profit-card.neutral {
+            background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
         }
         
         .profit-label {
-            font-size: 20px;
+            font-size: 18px;
             opacity: 0.9;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
+            font-weight: 500;
         }
         
         .profit-value {
-            font-size: 56px;
-            font-weight: bold;
+            font-size: 48px;
+            font-weight: 700;
             line-height: 1.1;
         }
         
         .profit-rate {
-            font-size: 24px;
-            margin-top: 12px;
+            font-size: 22px;
+            margin-top: 10px;
             opacity: 0.9;
+            font-weight: 500;
         }
         
         .profit-note {
-            font-size: 14px;
-            margin-top: 16px;
+            font-size: 13px;
+            margin-top: 14px;
             opacity: 0.7;
         }
         
-        /* 更新按鈕 */
-        .refresh-btn {
-            width: 100%;
-            padding: 20px;
-            background: white;
-            border: none;
-            border-radius: 24px;
-            font-size: 20px;
-            font-weight: bold;
-            color: #667eea;
-            cursor: pointer;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+        /* 買進紀錄區塊 */
+        .history-header {
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            justify-content: center;
-            gap: 10px;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        
-        .refresh-btn:active {
-            transform: scale(0.98);
-        }
-        
-        .refresh-btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-        
-        .refresh-icon {
-            font-size: 24px;
-        }
-        
-        /* 狀態訊息 */
-        .status-msg {
-            text-align: center;
-            color: white;
-            font-size: 16px;
-            margin-top: 16px;
-            min-height: 24px;
-        }
-        
-        /* 買進紀錄 */
-        .history-card {
-            background: white;
-            border-radius: 24px;
-            padding: 24px;
             margin-bottom: 16px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
         }
         
         .history-title {
-            font-size: 20px;
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 20px;
-            text-align: center;
+            font-size: 18px;
+            font-weight: 700;
+            color: #1f2937;
         }
         
+        .add-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 10px 16px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+            font-family: inherit;
+        }
+        
+        .add-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+        
+        .add-btn:active {
+            transform: translateY(0);
+        }
+        
+        /* 交易紀錄項目 */
         .history-item {
-            background: #f8f9fa;
-            border-radius: 16px;
+            background: #f9fafb;
+            border-radius: 14px;
             padding: 16px;
             margin-bottom: 12px;
+            position: relative;
+            transition: all 0.2s ease;
         }
         
         .history-item:last-child {
             margin-bottom: 0;
         }
         
+        .history-item:hover {
+            background: #f3f4f6;
+        }
+        
+        .history-main {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+        
+        .history-info {
+            flex: 1;
+        }
+        
         .history-date {
-            font-size: 16px;
-            color: #888;
-            margin-bottom: 8px;
+            font-size: 14px;
+            color: #9ca3af;
+            margin-bottom: 6px;
+            font-weight: 500;
         }
         
         .history-detail {
-            display: flex;
-            justify-content: space-between;
-            font-size: 18px;
-        }
-        
-        .history-shares {
-            color: #333;
-            font-weight: bold;
+            font-size: 16px;
+            color: #1f2937;
+            font-weight: 600;
         }
         
         .history-price {
-            color: #666;
+            color: #6b7280;
+            font-weight: 500;
+            margin-left: 8px;
+        }
+        
+        .history-right {
+            text-align: right;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 8px;
         }
         
         .single-pl {
-            margin-top: 8px;
             font-size: 18px;
-            font-weight: bold;
-            text-align: right;
+            font-weight: 700;
         }
         
         .single-pl.positive {
-            color: #40c057;
+            color: var(--success);
         }
         
         .single-pl.negative {
-            color: #ee5a5a;
+            color: var(--danger);
         }
-
+        
+        .single-pl.neutral {
+            color: #6b7280;
+        }
+        
+        .delete-btn {
+            background: none;
+            border: none;
+            color: #d1d5db;
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            font-size: 18px;
+            line-height: 1;
+        }
+        
+        .delete-btn:hover {
+            color: var(--danger);
+            background: #fee2e2;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 32px 16px;
+            color: #9ca3af;
+        }
+        
+        .empty-state-icon {
+            font-size: 48px;
+            margin-bottom: 12px;
+        }
+        
+        .empty-state-text {
+            font-size: 15px;
+            line-height: 1.5;
+        }
+        
+        /* 更新按鈕 */
+        .refresh-btn {
+            width: 100%;
+            padding: 18px;
+            background: white;
+            border: none;
+            border-radius: var(--card-radius);
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--primary);
+            cursor: pointer;
+            box-shadow: var(--card-shadow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.2s ease;
+            font-family: inherit;
+        }
+        
+        .refresh-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 44px rgba(0,0,0,0.18);
+        }
+        
+        .refresh-btn:active {
+            transform: translateY(0);
+        }
+        
+        .refresh-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .refresh-icon {
+            font-size: 22px;
+            transition: transform 0.3s ease;
+        }
+        
+        .refresh-btn:not(:disabled):hover .refresh-icon {
+            transform: rotate(180deg);
+        }
+        
+        /* 狀態訊息 */
+        .status-msg {
+            text-align: center;
+            color: white;
+            font-size: 15px;
+            margin-top: 16px;
+            min-height: 24px;
+            font-weight: 500;
+        }
+        
         /* 頁尾說明 */
         .footer-note {
             text-align: center;
-            color: rgba(255,255,255,0.7);
-            font-size: 14px;
-            margin-top: 24px;
+            color: rgba(255,255,255,0.75);
+            font-size: 13px;
+            margin-top: 20px;
             line-height: 1.6;
+        }
+        
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .modal {
+            background: white;
+            border-radius: var(--card-radius);
+            padding: 28px;
+            width: 100%;
+            max-width: 400px;
+            transform: translateY(20px) scale(0.95);
+            transition: all 0.3s ease;
+        }
+        
+        .modal-overlay.active .modal {
+            transform: translateY(0) scale(1);
+        }
+        
+        .modal-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #4b5563;
+            margin-bottom: 8px;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            font-size: 16px;
+            font-family: inherit;
+            transition: all 0.2s ease;
+            -webkit-appearance: none;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+        
+        .form-hint {
+            font-size: 13px;
+            color: #9ca3af;
+            margin-top: 6px;
+        }
+        
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 28px;
+        }
+        
+        .modal-btn {
+            flex: 1;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: inherit;
+        }
+        
+        .modal-btn.primary {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .modal-btn.primary:hover {
+            background: var(--primary-dark);
+        }
+        
+        .modal-btn.secondary {
+            background: #f3f4f6;
+            color: #4b5563;
+        }
+        
+        .modal-btn.secondary:hover {
+            background: #e5e7eb;
+        }
+        
+        /* 確認刪除 Modal */
+        .confirm-text {
+            text-align: center;
+            color: #4b5563;
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+        
+        .confirm-detail {
+            text-align: center;
+            background: #f9fafb;
+            padding: 16px;
+            border-radius: 12px;
+            margin-bottom: 8px;
+        }
+        
+        .modal-btn.danger {
+            background: var(--danger);
+            color: white;
+        }
+        
+        .modal-btn.danger:hover {
+            background: var(--danger-dark);
+        }
+
+        /* Toast 通知 */
+        .toast {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: #1f2937;
+            color: white;
+            padding: 14px 24px;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 500;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 1001;
+        }
+        
+        .toast.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
         }
     </style>
 </head>
 <body>
     <div class="container">
         <!-- 標題 -->
-        <div class="header-card">
+        <div class="card header-card">
             <div class="stock-name">國泰永續高股息</div>
             <div class="stock-code">00878</div>
         </div>
         
         <!-- 目前股價 -->
-        <div class="price-card">
+        <div class="card price-card">
             <div class="price-label">📈 目前股價</div>
             <div>
-                <span class="current-price" id="currentPrice">21.35</span>
+                <span class="current-price" id="currentPrice">--</span>
                 <span class="price-unit">元</span>
             </div>
-            <div class="update-time" id="updateTime">更新時間：載入中...</div>
+            <div class="update-time" id="updateTime">尚未更新</div>
         </div>
         
         <!-- 持股資訊 -->
-        <div class="info-card">
+        <div class="card" id="infoCard">
             <div class="info-row">
                 <span class="info-label">📦 持有張數</span>
-                <span class="info-value">2 張</span>
+                <span class="info-value" id="totalShares">0 張</span>
             </div>
             <div class="info-row">
                 <span class="info-label">💰 總成本</span>
-                <span class="info-value">42,440 元</span>
+                <span class="info-value" id="totalCost">0 元</span>
             </div>
             <div class="info-row">
                 <span class="info-label">🏷️ 平均買價</span>
-                <span class="info-value">21.22 元</span>
+                <span class="info-value" id="avgPrice">0 元</span>
             </div>
             <div class="info-row">
                 <span class="info-label">💵 目前市值</span>
-                <span class="info-value" id="marketValue">42,700 元</span>
+                <span class="info-value" id="marketValue">0 元</span>
             </div>
         </div>
         
-        <!-- 損益 - 最重要的資訊 -->
-        <div class="profit-card" id="profitCard">
+        <!-- 損益 -->
+        <div class="card profit-card neutral" id="profitCard">
             <div class="profit-label">💹 目前損益</div>
-            <div class="profit-value" id="profitValue">+158 元</div>
-            <div class="profit-rate" id="profitRate">報酬率 +0.37%</div>
+            <div class="profit-value" id="profitValue">0 元</div>
+            <div class="profit-rate" id="profitRate">報酬率 0%</div>
             <div class="profit-note">＊已扣除預估手續費與交易稅</div>
         </div>
         
         <!-- 買進紀錄 -->
-        <div class="history-card">
-            <div class="history-title">📝 買進紀錄</div>
-            
-            <div class="history-item">
-                <div class="history-date">2025/12/16（週二）</div>
-                <div class="history-detail">
-                    <span class="history-shares">買 1 張</span>
-                    <span class="history-price">@ 21.10 元</span>
-                </div>
-                <div class="single-pl" id="singlePL2">損益計算中...</div>
+        <div class="card">
+            <div class="history-header">
+                <div class="history-title">📝 買進紀錄</div>
+                <button class="add-btn" onclick="openAddModal()">
+                    <span>＋</span>
+                    <span>新增</span>
+                </button>
             </div>
-            
-            <div class="history-item">
-                <div class="history-date">2025/12/11（週四）</div>
-                <div class="history-detail">
-                    <span class="history-shares">買 1 張</span>
-                    <span class="history-price">@ 21.30 元</span>
-                </div>
-                <div class="single-pl" id="singlePL1">損益計算中...</div>
+            <div id="historyList">
+                <!-- 動態生成 -->
             </div>
         </div>
         
@@ -348,90 +620,314 @@
         <div class="status-msg" id="statusMsg"></div>
         
         <div class="footer-note">
-            每次開啟會自動更新股價<br>
-            也可以按上方按鈕手動更新
+            資料儲存在您的瀏覽器中<br>
+            清除瀏覽器資料會遺失紀錄
         </div>
     </div>
+    
+    <!-- 新增買進 Modal -->
+    <div class="modal-overlay" id="addModal">
+        <div class="modal">
+            <div class="modal-title">新增買進紀錄</div>
+            <div class="form-group">
+                <label class="form-label">買進日期</label>
+                <input type="date" class="form-input" id="inputDate">
+            </div>
+            <div class="form-group">
+                <label class="form-label">買進價格（元）</label>
+                <input type="number" class="form-input" id="inputPrice" placeholder="例如：21.35" step="0.01" min="0">
+            </div>
+            <div class="form-group">
+                <label class="form-label">買進張數</label>
+                <input type="number" class="form-input" id="inputShares" placeholder="例如：1" min="1" value="1">
+                <div class="form-hint">1 張 = 1000 股</div>
+            </div>
+            <div class="modal-actions">
+                <button class="modal-btn secondary" onclick="closeAddModal()">取消</button>
+                <button class="modal-btn primary" onclick="addTransaction()">確認新增</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 確認刪除 Modal -->
+    <div class="modal-overlay" id="deleteModal">
+        <div class="modal">
+            <div class="modal-title">確認刪除</div>
+            <div class="confirm-text">確定要刪除這筆買進紀錄嗎？</div>
+            <div class="confirm-detail" id="deleteDetail"></div>
+            <div class="modal-actions">
+                <button class="modal-btn secondary" onclick="closeDeleteModal()">取消</button>
+                <button class="modal-btn danger" onclick="confirmDelete()">確認刪除</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
 
     <script>
-        // ===== 存股資料設定 =====
-        const stockData = {
-            stockCode: '00878',
-            totalShares: 2000,      // 總股數
-            totalCost: 42440,       // 總成本
-            totalDividend: 0,       // 累計股利
-            totalFee: 40,           // 累計手續費
-            feeRate: 0.001425,      // 手續費率
-            taxRate: 0.001,         // 交易稅率
-            transactions: [
-                { date: '2025-12-11', cost: 21320, price: 21.3, shares: 1000 },
-                { date: '2025-12-16', cost: 21120, price: 21.1, shares: 1000 }
-            ]
-        };
-
-        stockData.avgCost = (stockData.totalCost / stockData.totalShares).toFixed(2);
-
-        // 計算預估賣出成本
-        function calcSellCost(marketValue) {
-            const sellFee = Math.floor(marketValue * stockData.feeRate);
-            const sellTax = Math.floor(marketValue * stockData.taxRate);
-            return { sellFee, sellTax, total: sellFee + sellTax };
+        // ===== 常數設定 =====
+        const FEE_RATE = 0.001425;   // 手續費率
+        const TAX_RATE = 0.001;      // 交易稅率
+        const STORAGE_KEY = '00878_transactions';
+        const PRICE_KEY = '00878_lastPrice';
+        const UPDATE_KEY = '00878_lastUpdate';
+        
+        // ===== 狀態 =====
+        let transactions = [];
+        let currentPrice = 0;
+        let deleteIndex = -1;
+        
+        // ===== 初始化 =====
+        function init() {
+            loadTransactions();
+            loadLastPrice();
+            renderAll();
+            fetchPrice();
+            
+            // 設定預設日期為今天
+            document.getElementById('inputDate').value = new Date().toISOString().split('T')[0];
         }
-
-        // 格式化數字
+        
+        // ===== 資料存取 =====
+        function loadTransactions() {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            if (saved) {
+                transactions = JSON.parse(saved);
+                // 按日期排序（新到舊）
+                transactions.sort((a, b) => new Date(b.date) - new Date(a.date));
+            }
+        }
+        
+        function saveTransactions() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(transactions));
+        }
+        
+        function loadLastPrice() {
+            const saved = localStorage.getItem(PRICE_KEY);
+            if (saved) {
+                currentPrice = parseFloat(saved);
+            }
+            const lastUpdate = localStorage.getItem(UPDATE_KEY);
+            if (lastUpdate) {
+                document.getElementById('updateTime').textContent = '更新時間：' + lastUpdate;
+            }
+        }
+        
+        function savePrice(price) {
+            localStorage.setItem(PRICE_KEY, price);
+            const now = new Date();
+            const timeStr = formatDateTime(now);
+            localStorage.setItem(UPDATE_KEY, timeStr);
+            document.getElementById('updateTime').textContent = '更新時間：' + timeStr;
+        }
+        
+        // ===== 格式化工具 =====
         function formatNumber(num) {
-            return num.toLocaleString('zh-TW');
+            return Math.round(num).toLocaleString('zh-TW');
         }
-
-        // 更新畫面
-        function updateDisplay(price) {
-            const currentPrice = parseFloat(price);
-            const marketValue = Math.round(currentPrice * stockData.totalShares);
-            const grossUnrealizedPL = marketValue - stockData.totalCost;
+        
+        function formatDateTime(date) {
+            const y = date.getFullYear();
+            const m = String(date.getMonth() + 1).padStart(2, '0');
+            const d = String(date.getDate()).padStart(2, '0');
+            const h = String(date.getHours()).padStart(2, '0');
+            const min = String(date.getMinutes()).padStart(2, '0');
+            return `${y}/${m}/${d} ${h}:${min}`;
+        }
+        
+        function formatDate(dateStr) {
+            const date = new Date(dateStr);
+            const y = date.getFullYear();
+            const m = String(date.getMonth() + 1).padStart(2, '0');
+            const d = String(date.getDate()).padStart(2, '0');
+            const weekdays = ['日', '一', '二', '三', '四', '五', '六'];
+            const w = weekdays[date.getDay()];
+            return `${y}/${m}/${d}（週${w}）`;
+        }
+        
+        // ===== 計算邏輯 =====
+        function calcSummary() {
+            const totalShares = transactions.reduce((sum, t) => sum + t.shares, 0);
+            const totalCost = transactions.reduce((sum, t) => sum + t.cost, 0);
+            const avgPrice = totalShares > 0 ? totalCost / totalShares : 0;
+            const marketValue = totalShares * currentPrice;
             
-            // 扣除預估賣出成本
-            const sellCost = calcSellCost(marketValue);
-            const unrealizedPL = grossUnrealizedPL - sellCost.total;
+            // 預估賣出成本
+            const sellFee = Math.floor(marketValue * FEE_RATE);
+            const sellTax = Math.floor(marketValue * TAX_RATE);
+            const sellCost = sellFee + sellTax;
             
-            const profitPercent = ((unrealizedPL / stockData.totalCost) * 100).toFixed(2);
-            const isPositive = unrealizedPL >= 0;
-
+            // 淨損益
+            const profit = marketValue - totalCost - sellCost;
+            const profitRate = totalCost > 0 ? (profit / totalCost) * 100 : 0;
+            
+            return {
+                totalShares,
+                totalCost,
+                avgPrice,
+                marketValue,
+                profit,
+                profitRate
+            };
+        }
+        
+        function calcSinglePL(transaction) {
+            return (currentPrice - transaction.price) * transaction.shares;
+        }
+        
+        // ===== 畫面渲染 =====
+        function renderAll() {
+            renderSummary();
+            renderHistory();
+        }
+        
+        function renderSummary() {
+            const summary = calcSummary();
+            
             // 更新股價
-            document.getElementById('currentPrice').textContent = currentPrice.toFixed(2);
+            document.getElementById('currentPrice').textContent = currentPrice > 0 ? currentPrice.toFixed(2) : '--';
             
-            // 更新市值
-            document.getElementById('marketValue').textContent = formatNumber(marketValue) + ' 元';
+            // 更新持股資訊
+            document.getElementById('totalShares').textContent = (summary.totalShares / 1000) + ' 張';
+            document.getElementById('totalCost').textContent = formatNumber(summary.totalCost) + ' 元';
+            document.getElementById('avgPrice').textContent = summary.avgPrice > 0 ? summary.avgPrice.toFixed(2) + ' 元' : '0 元';
+            document.getElementById('marketValue').textContent = formatNumber(summary.marketValue) + ' 元';
             
             // 更新損益卡片
             const profitCard = document.getElementById('profitCard');
-            profitCard.className = 'profit-card ' + (isPositive ? 'positive' : 'negative');
+            const isPositive = summary.profit > 0;
+            const isNegative = summary.profit < 0;
+            
+            profitCard.classList.remove('positive', 'negative', 'neutral');
+            if (summary.totalShares === 0 || currentPrice === 0) {
+                profitCard.classList.add('neutral');
+            } else if (isPositive) {
+                profitCard.classList.add('positive');
+            } else if (isNegative) {
+                profitCard.classList.add('negative');
+            } else {
+                profitCard.classList.add('neutral');
+            }
             
             const sign = isPositive ? '+' : '';
-            document.getElementById('profitValue').textContent = sign + formatNumber(unrealizedPL) + ' 元';
-            document.getElementById('profitRate').textContent = '報酬率 ' + sign + profitPercent + '%';
-            
-            // 更新單筆損益
-            stockData.transactions.forEach((t, index) => {
-                const singlePL = Math.round((currentPrice - t.price) * t.shares);
-                const el = document.getElementById('singlePL' + (index + 1));
-                if (el) {
-                    const singleSign = singlePL >= 0 ? '+' : '';
-                    el.textContent = singleSign + formatNumber(singlePL) + ' 元';
-                    el.className = 'single-pl ' + (singlePL >= 0 ? 'positive' : 'negative');
-                }
-            });
-
-            // 更新時間
-            const now = new Date();
-            const timeStr = `${now.getFullYear()}/${(now.getMonth()+1).toString().padStart(2,'0')}/${now.getDate().toString().padStart(2,'0')} ${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`;
-            document.getElementById('updateTime').textContent = '更新時間：' + timeStr;
-
-            // 儲存到本地
-            localStorage.setItem('00878_lastPrice', currentPrice);
-            localStorage.setItem('00878_lastUpdate', timeStr);
+            document.getElementById('profitValue').textContent = sign + formatNumber(summary.profit) + ' 元';
+            document.getElementById('profitRate').textContent = '報酬率 ' + sign + summary.profitRate.toFixed(2) + '%';
         }
-
-        // 抓取股價 - 多個備用來源
+        
+        function renderHistory() {
+            const container = document.getElementById('historyList');
+            
+            if (transactions.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📋</div>
+                        <div class="empty-state-text">尚無買進紀錄<br>點擊「新增」開始記錄</div>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = transactions.map((t, index) => {
+                const pl = calcSinglePL(t);
+                const plClass = pl > 0 ? 'positive' : (pl < 0 ? 'negative' : 'neutral');
+                const plSign = pl > 0 ? '+' : '';
+                const plText = currentPrice > 0 ? `${plSign}${formatNumber(pl)} 元` : '計算中...';
+                
+                return `
+                    <div class="history-item">
+                        <div class="history-main">
+                            <div class="history-info">
+                                <div class="history-date">${formatDate(t.date)}</div>
+                                <div class="history-detail">
+                                    買 ${t.shares / 1000} 張
+                                    <span class="history-price">@ ${t.price.toFixed(2)} 元</span>
+                                </div>
+                            </div>
+                            <div class="history-right">
+                                <button class="delete-btn" onclick="openDeleteModal(${index})" title="刪除">✕</button>
+                                <div class="single-pl ${plClass}">${plText}</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        // ===== 新增交易 =====
+        function openAddModal() {
+            document.getElementById('addModal').classList.add('active');
+            document.getElementById('inputDate').value = new Date().toISOString().split('T')[0];
+            document.getElementById('inputPrice').value = '';
+            document.getElementById('inputShares').value = '1';
+            document.getElementById('inputPrice').focus();
+        }
+        
+        function closeAddModal() {
+            document.getElementById('addModal').classList.remove('active');
+        }
+        
+        function addTransaction() {
+            const date = document.getElementById('inputDate').value;
+            const price = parseFloat(document.getElementById('inputPrice').value);
+            const shares = parseInt(document.getElementById('inputShares').value) * 1000;
+            
+            // 驗證
+            if (!date) {
+                showToast('請選擇買進日期');
+                return;
+            }
+            if (!price || price <= 0) {
+                showToast('請輸入有效的買進價格');
+                return;
+            }
+            if (!shares || shares <= 0) {
+                showToast('請輸入有效的買進張數');
+                return;
+            }
+            
+            // 計算成本（含手續費）
+            const grossCost = price * shares;
+            const fee = Math.floor(grossCost * FEE_RATE);
+            const cost = grossCost + fee;
+            
+            // 新增
+            transactions.push({ date, price, shares, cost });
+            transactions.sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            saveTransactions();
+            renderAll();
+            closeAddModal();
+            showToast('✅ 已新增買進紀錄');
+        }
+        
+        // ===== 刪除交易 =====
+        function openDeleteModal(index) {
+            deleteIndex = index;
+            const t = transactions[index];
+            document.getElementById('deleteDetail').innerHTML = `
+                <div>${formatDate(t.date)}</div>
+                <div style="margin-top:4px;font-weight:600;">買 ${t.shares / 1000} 張 @ ${t.price.toFixed(2)} 元</div>
+            `;
+            document.getElementById('deleteModal').classList.add('active');
+        }
+        
+        function closeDeleteModal() {
+            document.getElementById('deleteModal').classList.remove('active');
+            deleteIndex = -1;
+        }
+        
+        function confirmDelete() {
+            if (deleteIndex >= 0) {
+                transactions.splice(deleteIndex, 1);
+                saveTransactions();
+                renderAll();
+                showToast('🗑️ 已刪除紀錄');
+            }
+            closeDeleteModal();
+        }
+        
+        // ===== 股價更新 =====
         async function fetchPrice() {
             const btn = document.getElementById('refreshBtn');
             const status = document.getElementById('statusMsg');
@@ -439,7 +935,6 @@
             btn.disabled = true;
             status.textContent = '正在更新股價...';
 
-            // 多個代理服務備用
             const proxies = [
                 (url) => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
                 (url) => `https://corsproxy.io/?${encodeURIComponent(url)}`,
@@ -454,15 +949,16 @@
                     status.textContent = `正在更新股價... (${i + 1}/${proxies.length})`;
                     
                     const response = await fetch(proxies[i](targetUrl), {
-                        signal: AbortSignal.timeout(10000) // 10秒超時
+                        signal: AbortSignal.timeout(10000)
                     });
                     const html = await response.text();
                     
                     const priceMatch = html.match(/"regularMarketPrice":(\d+\.?\d*)/);
                     
                     if (priceMatch && priceMatch[1]) {
-                        const price = parseFloat(priceMatch[1]);
-                        updateDisplay(price);
+                        currentPrice = parseFloat(priceMatch[1]);
+                        savePrice(currentPrice);
+                        renderAll();
                         status.textContent = '✅ 股價已更新';
                         setTimeout(() => { status.textContent = ''; }, 3000);
                         success = true;
@@ -473,10 +969,7 @@
             }
 
             if (!success) {
-                console.error('所有代理都失敗');
-                const lastPrice = localStorage.getItem('00878_lastPrice');
-                if (lastPrice) {
-                    updateDisplay(parseFloat(lastPrice));
+                if (currentPrice > 0) {
                     status.textContent = '⚠️ 無法更新，顯示上次股價';
                 } else {
                     status.textContent = '❌ 更新失敗，請稍後再試';
@@ -485,21 +978,28 @@
             
             btn.disabled = false;
         }
-
-        // 頁面載入
-        window.onload = function() {
-            // 先顯示快取的價格
-            const lastPrice = localStorage.getItem('00878_lastPrice');
-            if (lastPrice) {
-                updateDisplay(parseFloat(lastPrice));
-                const lastUpdate = localStorage.getItem('00878_lastUpdate');
-                if (lastUpdate) {
-                    document.getElementById('updateTime').textContent = '更新時間：' + lastUpdate;
+        
+        // ===== Toast =====
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2500);
+        }
+        
+        // ===== 點擊外部關閉 Modal =====
+        document.querySelectorAll('.modal-overlay').forEach(overlay => {
+            overlay.addEventListener('click', (e) => {
+                if (e.target === overlay) {
+                    overlay.classList.remove('active');
                 }
-            }
-            // 自動抓取最新股價
-            fetchPrice();
-        };
+            });
+        });
+        
+        // 啟動
+        window.onload = init;
     </script>
 </body>
 </html>
