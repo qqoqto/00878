@@ -48,141 +48,6 @@
             box-shadow: var(--card-shadow);
         }
         
-        /* 登入區塊 */
-        .auth-card {
-            text-align: center;
-            padding: 40px 24px;
-        }
-
-        .auth-card .stock-name {
-            font-size: 28px;
-            font-weight: 700;
-            color: #1f2937;
-            margin-bottom: 8px;
-        }
-
-        .auth-card .stock-code {
-            font-size: 16px;
-            color: #9ca3af;
-            font-weight: 500;
-            margin-bottom: 32px;
-        }
-
-        .google-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            background: white;
-            border: 2px solid #e5e7eb;
-            border-radius: 14px;
-            padding: 14px 28px;
-            font-size: 17px;
-            font-weight: 600;
-            color: #1f2937;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            font-family: inherit;
-        }
-
-        .google-btn:hover {
-            border-color: var(--primary);
-            box-shadow: 0 4px 16px rgba(99, 102, 241, 0.15);
-            transform: translateY(-1px);
-        }
-
-        .google-btn:active {
-            transform: translateY(0);
-        }
-
-        .google-btn img {
-            width: 24px;
-            height: 24px;
-        }
-
-        .auth-note {
-            font-size: 13px;
-            color: #9ca3af;
-            margin-top: 20px;
-            line-height: 1.6;
-        }
-
-        /* 使用者列 */
-        .user-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 14px 20px;
-        }
-
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .user-avatar {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            object-fit: cover;
-        }
-
-        .user-name {
-            font-size: 14px;
-            font-weight: 600;
-            color: #1f2937;
-        }
-
-        .logout-btn {
-            background: none;
-            border: 1px solid #e5e7eb;
-            border-radius: 10px;
-            padding: 8px 14px;
-            font-size: 13px;
-            font-weight: 500;
-            color: #6b7280;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            font-family: inherit;
-        }
-
-        .logout-btn:hover {
-            border-color: var(--danger);
-            color: var(--danger);
-            background: #fef2f2;
-        }
-
-        /* 同步狀態 */
-        .sync-indicator {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 12px;
-            color: #9ca3af;
-            margin-left: 4px;
-        }
-
-        .sync-dot {
-            width: 7px;
-            height: 7px;
-            border-radius: 50%;
-            background: var(--success);
-        }
-
-        .sync-dot.syncing {
-            background: #f59e0b;
-            animation: pulse 1s infinite;
-        }
-
-        .sync-dot.error {
-            background: var(--danger);
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.4; }
-        }
-
         /* 標題卡片 */
         .header-card {
             text-align: center;
@@ -677,8 +542,6 @@
             visibility: hidden;
             transition: all 0.3s ease;
             z-index: 1001;
-            max-width: 90%;
-            text-align: center;
         }
         
         .toast.show {
@@ -686,225 +549,79 @@
             visibility: visible;
             transform: translateX(-50%) translateY(0);
         }
-
-        /* Loading */
-        .loading-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: var(--bg-gradient);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 2000;
-            transition: opacity 0.4s ease;
-        }
-
-        .loading-overlay.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .loading-spinner {
-            text-align: center;
-            color: white;
-        }
-
-        .loading-spinner .spinner {
-            width: 48px;
-            height: 48px;
-            border: 4px solid rgba(255,255,255,0.3);
-            border-top-color: white;
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-            margin: 0 auto 16px;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        .loading-text {
-            font-size: 16px;
-            font-weight: 500;
-        }
-
-        /* 隱藏 */
-        .hidden {
-            display: none !important;
-        }
-
-        /* 資料遷移提示 */
-        .migrate-card {
-            background: #fffbeb;
-            border: 2px solid #f59e0b;
-            padding: 20px 24px;
-            text-align: center;
-        }
-
-        .migrate-card .migrate-title {
-            font-size: 16px;
-            font-weight: 700;
-            color: #92400e;
-            margin-bottom: 8px;
-        }
-
-        .migrate-card .migrate-desc {
-            font-size: 14px;
-            color: #a16207;
-            margin-bottom: 16px;
-            line-height: 1.5;
-        }
-
-        .migrate-actions {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-        }
-
-        .migrate-btn {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 10px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            font-family: inherit;
-            transition: all 0.2s ease;
-        }
-
-        .migrate-btn.yes {
-            background: #f59e0b;
-            color: white;
-        }
-
-        .migrate-btn.no {
-            background: #f3f4f6;
-            color: #6b7280;
-        }
     </style>
 </head>
 <body>
-    <!-- Loading -->
-    <div class="loading-overlay" id="loadingOverlay">
-        <div class="loading-spinner">
-            <div class="spinner"></div>
-            <div class="loading-text">載入中...</div>
-        </div>
-    </div>
-
     <div class="container">
-        <!-- 登入畫面 -->
-        <div id="authScreen" class="hidden">
-            <div class="card auth-card">
-                <div class="stock-name">國泰永續高股息</div>
-                <div class="stock-code">00878 存股紀錄</div>
-                <button class="google-btn" onclick="signInWithGoogle()">
-                    <svg width="24" height="24" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
-                    使用 Google 帳號登入
-                </button>
-                <div class="auth-note">
-                    登入後資料自動同步到雲端<br>
-                    換裝置也能存取紀錄
-                </div>
+        <!-- 標題 -->
+        <div class="card header-card">
+            <div class="stock-name">國泰永續高股息</div>
+            <div class="stock-code">00878</div>
+        </div>
+        
+        <!-- 目前股價 -->
+        <div class="card price-card">
+            <div class="price-label">📈 目前股價</div>
+            <div>
+                <span class="current-price" id="currentPrice">--</span>
+                <span class="price-unit">元</span>
+            </div>
+            <div class="update-time" id="updateTime">尚未更新</div>
+        </div>
+        
+        <!-- 持股資訊 -->
+        <div class="card" id="infoCard">
+            <div class="info-row">
+                <span class="info-label">📦 持有張數</span>
+                <span class="info-value" id="totalShares">0 張</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">💰 總成本</span>
+                <span class="info-value" id="totalCost">0 元</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">🏷️ 平均買價</span>
+                <span class="info-value" id="avgPrice">0 元</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">💵 目前市值</span>
+                <span class="info-value" id="marketValue">0 元</span>
             </div>
         </div>
-
-        <!-- 主畫面 -->
-        <div id="mainScreen" class="hidden">
-            <!-- 使用者列 -->
-            <div class="card user-bar">
-                <div class="user-info">
-                    <img class="user-avatar" id="userAvatar" src="" alt="">
-                    <span class="user-name" id="userName"></span>
-                    <span class="sync-indicator">
-                        <span class="sync-dot" id="syncDot"></span>
-                        <span id="syncText">已同步</span>
-                    </span>
-                </div>
-                <button class="logout-btn" onclick="signOutUser()">登出</button>
+        
+        <!-- 損益 -->
+        <div class="card profit-card neutral" id="profitCard">
+            <div class="profit-label">💹 目前損益</div>
+            <div class="profit-value" id="profitValue">0 元</div>
+            <div class="profit-rate" id="profitRate">報酬率 0%</div>
+            <div class="profit-note">＊已扣除預估手續費與交易稅</div>
+        </div>
+        
+        <!-- 買進紀錄 -->
+        <div class="card">
+            <div class="history-header">
+                <div class="history-title">📝 買進紀錄</div>
+                <button class="add-btn" onclick="openAddModal()">
+                    <span>＋</span>
+                    <span>新增</span>
+                </button>
             </div>
-
-            <!-- 資料遷移提示 -->
-            <div class="card migrate-card hidden" id="migrateCard">
-                <div class="migrate-title">📦 發現本機舊資料</div>
-                <div class="migrate-desc">偵測到瀏覽器中有之前的買進紀錄，要匯入到雲端嗎？</div>
-                <div class="migrate-actions">
-                    <button class="migrate-btn yes" onclick="migrateData()">匯入到雲端</button>
-                    <button class="migrate-btn no" onclick="skipMigrate()">不用了</button>
-                </div>
+            <div id="historyList">
+                <!-- 動態生成 -->
             </div>
-
-            <!-- 標題 -->
-            <div class="card header-card">
-                <div class="stock-name">國泰永續高股息</div>
-                <div class="stock-code">00878</div>
-            </div>
-            
-            <!-- 目前股價 -->
-            <div class="card price-card">
-                <div class="price-label">📈 目前股價</div>
-                <div>
-                    <span class="current-price" id="currentPrice">--</span>
-                    <span class="price-unit">元</span>
-                </div>
-                <div class="update-time" id="updateTime">尚未更新</div>
-            </div>
-            
-            <!-- 持股資訊 -->
-            <div class="card" id="infoCard">
-                <div class="info-row">
-                    <span class="info-label">📦 持有張數</span>
-                    <span class="info-value" id="totalShares">0 張</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-label">💰 總成本</span>
-                    <span class="info-value" id="totalCost">0 元</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-label">🏷️ 平均買價</span>
-                    <span class="info-value" id="avgPrice">0 元</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-label">💵 目前市值</span>
-                    <span class="info-value" id="marketValue">0 元</span>
-                </div>
-            </div>
-            
-            <!-- 損益 -->
-            <div class="card profit-card neutral" id="profitCard">
-                <div class="profit-label">💹 目前損益</div>
-                <div class="profit-value" id="profitValue">0 元</div>
-                <div class="profit-rate" id="profitRate">報酬率 0%</div>
-                <div class="profit-note">＊已扣除預估手續費與交易稅</div>
-            </div>
-            
-            <!-- 買進紀錄 -->
-            <div class="card">
-                <div class="history-header">
-                    <div class="history-title">📝 買進紀錄</div>
-                    <button class="add-btn" onclick="openAddModal()">
-                        <span>＋</span>
-                        <span>新增</span>
-                    </button>
-                </div>
-                <div id="historyList"></div>
-            </div>
-            
-            <!-- 更新按鈕 -->
-            <button class="refresh-btn" id="refreshBtn" onclick="fetchPrice()">
-                <span class="refresh-icon">🔄</span>
-                <span>更新股價</span>
-            </button>
-            
-            <div class="status-msg" id="statusMsg"></div>
-            
-            <div class="footer-note">
-                資料已同步至 Firebase 雲端<br>
-                換裝置登入即可存取
-            </div>
+        </div>
+        
+        <!-- 更新按鈕 -->
+        <button class="refresh-btn" id="refreshBtn" onclick="fetchPrice()">
+            <span class="refresh-icon">🔄</span>
+            <span>更新股價</span>
+        </button>
+        
+        <div class="status-msg" id="statusMsg"></div>
+        
+        <div class="footer-note">
+            資料儲存在您的瀏覽器中<br>
+            清除瀏覽器資料會遺失紀錄
         </div>
     </div>
     
@@ -948,214 +665,63 @@
     <!-- Toast -->
     <div class="toast" id="toast"></div>
 
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-
     <script>
-        // =============================================================
-        // ★★★ Firebase 設定 ★★★
-        // 請將下方替換為你自己的 Firebase 專案設定
-        // =============================================================
-        const firebaseConfig = {
-            apiKey: "AIzaSyDpPZgtT-4Xx6uiw4CkkVipY1UA_QQYvEI",
-            authDomain: "stock-tracker-00878.firebaseapp.com",
-            projectId: "stock-tracker-00878",
-            storageBucket: "stock-tracker-00878.firebasestorage.app",
-            messagingSenderId: "207716790033",
-            appId: "1:207716790033:web:bac1d4cd893d11855be6b0"
-        };
-
-        // 初始化 Firebase
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-        const db = firebase.firestore();
-
         // ===== 常數設定 =====
-        const FEE_RATE = 0.001425;
-        const TAX_RATE = 0.001;
-        const OLD_STORAGE_KEY = '00878_transactions';
-        const OLD_PRICE_KEY = '00878_lastPrice';
-        const OLD_UPDATE_KEY = '00878_lastUpdate';
-
+        const FEE_RATE = 0.001425;   // 手續費率
+        const TAX_RATE = 0.001;      // 交易稅率
+        const STORAGE_KEY = '00878_transactions';
+        const PRICE_KEY = '00878_lastPrice';
+        const UPDATE_KEY = '00878_lastUpdate';
+        
         // ===== 狀態 =====
         let transactions = [];
         let currentPrice = 0;
-        let deleteDocId = null;
-        let currentUser = null;
-        let unsubscribe = null;  // Firestore 即時監聽
-
-        // ===== 認證 =====
-        function signInWithGoogle() {
-            const provider = new firebase.auth.GoogleAuthProvider();
-            auth.signInWithPopup(provider).catch(err => {
-                console.error('登入失敗:', err);
-                if (err.code === 'auth/popup-blocked') {
-                    // fallback to redirect
-                    auth.signInWithRedirect(provider);
-                } else {
-                    showToast('❌ 登入失敗：' + err.message);
-                }
-            });
+        let deleteIndex = -1;
+        
+        // ===== 初始化 =====
+        function init() {
+            loadTransactions();
+            loadLastPrice();
+            renderAll();
+            fetchPrice();
+            
+            // 設定預設日期為今天
+            document.getElementById('inputDate').value = new Date().toISOString().split('T')[0];
         }
-
-        function signOutUser() {
-            if (unsubscribe) {
-                unsubscribe();
-                unsubscribe = null;
-            }
-            auth.signOut();
-        }
-
-        // 監聽登入狀態
-        auth.onAuthStateChanged(user => {
-            const loading = document.getElementById('loadingOverlay');
-            
-            if (user) {
-                currentUser = user;
-                document.getElementById('authScreen').classList.add('hidden');
-                document.getElementById('mainScreen').classList.remove('hidden');
-                
-                // 顯示使用者資訊
-                document.getElementById('userAvatar').src = user.photoURL || '';
-                document.getElementById('userName').textContent = user.displayName || user.email;
-                
-                // 開始監聽 Firestore
-                startListening();
-                
-                // 檢查是否有舊資料要遷移
-                checkMigration();
-                
-                // 取得股價
-                fetchPrice();
-            } else {
-                currentUser = null;
-                transactions = [];
-                currentPrice = 0;
-                
-                if (unsubscribe) {
-                    unsubscribe();
-                    unsubscribe = null;
-                }
-                
-                document.getElementById('authScreen').classList.remove('hidden');
-                document.getElementById('mainScreen').classList.add('hidden');
-            }
-            
-            loading.classList.add('hidden');
-        });
-
-        // ===== Firestore 即時監聽 =====
-        function startListening() {
-            if (!currentUser) return;
-
-            setSyncStatus('syncing');
-            
-            const userDoc = db.collection('users').doc(currentUser.uid);
-            
-            // 監聽交易紀錄
-            unsubscribe = userDoc.collection('transactions')
-                .orderBy('date', 'desc')
-                .onSnapshot(snapshot => {
-                    transactions = snapshot.docs.map(doc => ({
-                        id: doc.id,
-                        ...doc.data()
-                    }));
-                    renderAll();
-                    setSyncStatus('synced');
-                }, err => {
-                    console.error('監聽失敗:', err);
-                    setSyncStatus('error');
-                });
-
-            // 讀取上次股價
-            userDoc.get().then(doc => {
-                if (doc.exists) {
-                    const data = doc.data();
-                    if (data.lastPrice) {
-                        currentPrice = data.lastPrice;
-                        renderAll();
-                    }
-                    if (data.lastUpdate) {
-                        document.getElementById('updateTime').textContent = '更新時間：' + data.lastUpdate;
-                    }
-                }
-            });
-        }
-
-        function setSyncStatus(status) {
-            const dot = document.getElementById('syncDot');
-            const text = document.getElementById('syncText');
-            dot.className = 'sync-dot';
-            
-            if (status === 'synced') {
-                text.textContent = '已同步';
-            } else if (status === 'syncing') {
-                dot.classList.add('syncing');
-                text.textContent = '同步中';
-            } else {
-                dot.classList.add('error');
-                text.textContent = '同步失敗';
+        
+        // ===== 資料存取 =====
+        function loadTransactions() {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            if (saved) {
+                transactions = JSON.parse(saved);
+                // 按日期排序（新到舊）
+                transactions.sort((a, b) => new Date(b.date) - new Date(a.date));
             }
         }
-
-        // ===== 資料遷移 =====
-        function checkMigration() {
-            const oldData = localStorage.getItem(OLD_STORAGE_KEY);
-            if (oldData) {
-                const parsed = JSON.parse(oldData);
-                if (parsed.length > 0) {
-                    document.getElementById('migrateCard').classList.remove('hidden');
-                }
+        
+        function saveTransactions() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(transactions));
+        }
+        
+        function loadLastPrice() {
+            const saved = localStorage.getItem(PRICE_KEY);
+            if (saved) {
+                currentPrice = parseFloat(saved);
+            }
+            const lastUpdate = localStorage.getItem(UPDATE_KEY);
+            if (lastUpdate) {
+                document.getElementById('updateTime').textContent = '更新時間：' + lastUpdate;
             }
         }
-
-        async function migrateData() {
-            const oldData = JSON.parse(localStorage.getItem(OLD_STORAGE_KEY) || '[]');
-            if (oldData.length === 0) return;
-
-            setSyncStatus('syncing');
-            showToast('⏳ 正在匯入資料...');
-
-            try {
-                const batch = db.batch();
-                const txnRef = db.collection('users').doc(currentUser.uid).collection('transactions');
-
-                for (const t of oldData) {
-                    const docRef = txnRef.doc();
-                    batch.set(docRef, {
-                        date: t.date,
-                        price: t.price,
-                        shares: t.shares,
-                        cost: t.cost,
-                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
-                    });
-                }
-
-                await batch.commit();
-
-                // 清除舊資料
-                localStorage.removeItem(OLD_STORAGE_KEY);
-                localStorage.removeItem(OLD_PRICE_KEY);
-                localStorage.removeItem(OLD_UPDATE_KEY);
-
-                document.getElementById('migrateCard').classList.add('hidden');
-                showToast(`✅ 已匯入 ${oldData.length} 筆紀錄到雲端`);
-            } catch (err) {
-                console.error('遷移失敗:', err);
-                showToast('❌ 匯入失敗，請稍後再試');
-                setSyncStatus('error');
-            }
+        
+        function savePrice(price) {
+            localStorage.setItem(PRICE_KEY, price);
+            const now = new Date();
+            const timeStr = formatDateTime(now);
+            localStorage.setItem(UPDATE_KEY, timeStr);
+            document.getElementById('updateTime').textContent = '更新時間：' + timeStr;
         }
-
-        function skipMigrate() {
-            document.getElementById('migrateCard').classList.add('hidden');
-            localStorage.removeItem(OLD_STORAGE_KEY);
-            localStorage.removeItem(OLD_PRICE_KEY);
-            localStorage.removeItem(OLD_UPDATE_KEY);
-        }
-
+        
         // ===== 格式化工具 =====
         function formatNumber(num) {
             return Math.round(num).toLocaleString('zh-TW');
@@ -1187,14 +753,23 @@
             const avgPrice = totalShares > 0 ? totalCost / totalShares : 0;
             const marketValue = totalShares * currentPrice;
             
+            // 預估賣出成本
             const sellFee = Math.floor(marketValue * FEE_RATE);
             const sellTax = Math.floor(marketValue * TAX_RATE);
             const sellCost = sellFee + sellTax;
             
+            // 淨損益
             const profit = marketValue - totalCost - sellCost;
             const profitRate = totalCost > 0 ? (profit / totalCost) * 100 : 0;
             
-            return { totalShares, totalCost, avgPrice, marketValue, profit, profitRate };
+            return {
+                totalShares,
+                totalCost,
+                avgPrice,
+                marketValue,
+                profit,
+                profitRate
+            };
         }
         
         function calcSinglePL(transaction) {
@@ -1210,12 +785,16 @@
         function renderSummary() {
             const summary = calcSummary();
             
+            // 更新股價
             document.getElementById('currentPrice').textContent = currentPrice > 0 ? currentPrice.toFixed(2) : '--';
+            
+            // 更新持股資訊
             document.getElementById('totalShares').textContent = (summary.totalShares / 1000) + ' 張';
             document.getElementById('totalCost').textContent = formatNumber(summary.totalCost) + ' 元';
             document.getElementById('avgPrice').textContent = summary.avgPrice > 0 ? summary.avgPrice.toFixed(2) + ' 元' : '0 元';
             document.getElementById('marketValue').textContent = formatNumber(summary.marketValue) + ' 元';
             
+            // 更新損益卡片
             const profitCard = document.getElementById('profitCard');
             const isPositive = summary.profit > 0;
             const isNegative = summary.profit < 0;
@@ -1249,7 +828,7 @@
                 return;
             }
             
-            container.innerHTML = transactions.map(t => {
+            container.innerHTML = transactions.map((t, index) => {
                 const pl = calcSinglePL(t);
                 const plClass = pl > 0 ? 'positive' : (pl < 0 ? 'negative' : 'neutral');
                 const plSign = pl > 0 ? '+' : '';
@@ -1266,7 +845,7 @@
                                 </div>
                             </div>
                             <div class="history-right">
-                                <button class="delete-btn" onclick="openDeleteModal('${t.id}')" title="刪除">✕</button>
+                                <button class="delete-btn" onclick="openDeleteModal(${index})" title="刪除">✕</button>
                                 <div class="single-pl ${plClass}">${plText}</div>
                             </div>
                         </div>
@@ -1288,46 +867,44 @@
             document.getElementById('addModal').classList.remove('active');
         }
         
-        async function addTransaction() {
+        function addTransaction() {
             const date = document.getElementById('inputDate').value;
             const price = parseFloat(document.getElementById('inputPrice').value);
             const shares = parseInt(document.getElementById('inputShares').value) * 1000;
             
-            if (!date) { showToast('請選擇買進日期'); return; }
-            if (!price || price <= 0) { showToast('請輸入有效的買進價格'); return; }
-            if (!shares || shares <= 0) { showToast('請輸入有效的買進張數'); return; }
+            // 驗證
+            if (!date) {
+                showToast('請選擇買進日期');
+                return;
+            }
+            if (!price || price <= 0) {
+                showToast('請輸入有效的買進價格');
+                return;
+            }
+            if (!shares || shares <= 0) {
+                showToast('請輸入有效的買進張數');
+                return;
+            }
             
+            // 計算成本（含手續費）
             const grossCost = price * shares;
             const fee = Math.floor(grossCost * FEE_RATE);
             const cost = grossCost + fee;
-
-            setSyncStatus('syncing');
             
-            try {
-                await db.collection('users').doc(currentUser.uid)
-                    .collection('transactions').add({
-                        date,
-                        price,
-                        shares,
-                        cost,
-                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
-                    });
-                
-                closeAddModal();
-                showToast('✅ 已新增買進紀錄');
-            } catch (err) {
-                console.error('新增失敗:', err);
-                showToast('❌ 新增失敗，請稍後再試');
-                setSyncStatus('error');
-            }
+            // 新增
+            transactions.push({ date, price, shares, cost });
+            transactions.sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            saveTransactions();
+            renderAll();
+            closeAddModal();
+            showToast('✅ 已新增買進紀錄');
         }
         
         // ===== 刪除交易 =====
-        function openDeleteModal(docId) {
-            deleteDocId = docId;
-            const t = transactions.find(t => t.id === docId);
-            if (!t) return;
-            
+        function openDeleteModal(index) {
+            deleteIndex = index;
+            const t = transactions[index];
             document.getElementById('deleteDetail').innerHTML = `
                 <div>${formatDate(t.date)}</div>
                 <div style="margin-top:4px;font-weight:600;">買 ${t.shares / 1000} 張 @ ${t.price.toFixed(2)} 元</div>
@@ -1337,24 +914,16 @@
         
         function closeDeleteModal() {
             document.getElementById('deleteModal').classList.remove('active');
-            deleteDocId = null;
+            deleteIndex = -1;
         }
         
-        async function confirmDelete() {
-            if (!deleteDocId) return;
-
-            setSyncStatus('syncing');
-            
-            try {
-                await db.collection('users').doc(currentUser.uid)
-                    .collection('transactions').doc(deleteDocId).delete();
+        function confirmDelete() {
+            if (deleteIndex >= 0) {
+                transactions.splice(deleteIndex, 1);
+                saveTransactions();
+                renderAll();
                 showToast('🗑️ 已刪除紀錄');
-            } catch (err) {
-                console.error('刪除失敗:', err);
-                showToast('❌ 刪除失敗');
-                setSyncStatus('error');
             }
-            
             closeDeleteModal();
         }
         
@@ -1388,18 +957,7 @@
                     
                     if (priceMatch && priceMatch[1]) {
                         currentPrice = parseFloat(priceMatch[1]);
-                        
-                        // 存到 Firestore
-                        if (currentUser) {
-                            const now = new Date();
-                            const timeStr = formatDateTime(now);
-                            await db.collection('users').doc(currentUser.uid).set({
-                                lastPrice: currentPrice,
-                                lastUpdate: timeStr
-                            }, { merge: true });
-                            document.getElementById('updateTime').textContent = '更新時間：' + timeStr;
-                        }
-                        
+                        savePrice(currentPrice);
                         renderAll();
                         status.textContent = '✅ 股價已更新';
                         setTimeout(() => { status.textContent = ''; }, 3000);
@@ -1439,6 +997,9 @@
                 }
             });
         });
+        
+        // 啟動
+        window.onload = init;
     </script>
 </body>
 </html>
